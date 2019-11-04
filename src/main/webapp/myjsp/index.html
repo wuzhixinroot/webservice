@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="../layer/layer.js"></script>
+    <script src="../layui/layui.js"></script>
+
+    <style type="text/css">
+        .two{
+            margin: 20px;
+        }
+
+        .nono{
+            display:none;
+        }
+    </style>
+
+            <script type="text/javascript">
+
+                layer.confirm('您是如何看待前端开发？', {
+                    btn: ['重要','奇葩'] //按钮
+                }, function(){
+                    layer.msg('的确很重要', {icon: 1});
+                }, function(){
+                    layer.msg('也可以这样', {
+                        time: 20000, //20s后自动关闭
+                        btn: ['明白了', '知道了']
+                    });
+                });
+
+                //入口函数
+                $(function () {
+
+
+                        //第一个实例
+
+                   /* table.render({
+                            elem: '#description'
+                            ,height: 312
+                            ,url: "/cityHandle?city=上海" //数据接口
+                            // ,page: true //开启分页
+                            ,limit:1
+                            ,cols: [[ //表头
+
+                                ,{field: 'cityDescription', title: '城市描述', width: 135, height:50, sort: true}
+                            ]]
+                        });
+*/
+
+
+
+                   $("#weather").click(function () {
+                       //如果有隐藏class 则隐藏
+                     /*  alert("sssssssss");
+                      if($("#weather").hasClass("nono")){
+                          $("#weather").hide().removeClass("nono");
+                      }*/
+                       var $city = $("#city");
+                       if($city.hasClass("nono")){
+                           $city.removeClass("nono");  //取消隐藏显示
+                       }
+                   });
+
+                   //ajax 异步提交
+                   $("#sub").click(function () {
+
+                       var cityValue = $("#cityValue").val();
+                     //  alert("whfeiwfhieowf");
+                       alert(cityValue);
+
+                       var $cityData= $("#cityData ");
+                       if($cityData.hasClass("nono")) {
+                           alert("sssssssss");
+                           $cityData.removeClass("nono");
+                       }
+                       layui.use('table', function(){
+                           var table = layui.table;
+                       layui.use('table', function(){
+                           var table = layui.table;
+                       table.render({
+                           elem: '#cityData'
+                           ,height: 310
+                           ,url: "/cityHandle?city=上海" //数据接口
+                           // ,page: true //开启分页
+                           ,limit:1
+                           ,cols: [[ //表头
+                               {field: 'cityName', title: '城市名称', width:80,  fixed: 'left'}
+                               ,{field: 'queryTime', title: '', width:80}
+                               ,{field: 'temperature', title: '当前温度', width:80}
+                               ,{field: 'condition', title: '温度状况', width:80}
+                               ,{field: 'fengXiang', title: '风况', width: 177}
+                               ,{field: 'shikuang', title: '实况', width: 80}
+                               ,{field: 'tomorrowTemperature', title: '明日天气', width: 80}
+                               ,{field: 'tomorrowCondition', title: '明日状况', width: 80}
+                               ,{field: 'tomorrowFengXiang', title: '明日风向', width: 135}
+                               ,{field: 'afterTomorrowTemperature', title: '后天天气', width: 135}
+                               ,{field: 'afterTomorrowCondition', title: '后天状况', width: 135}
+                               ,{field: 'afterAomorrowFengXiang', title: '后天风向', width: 135,height:50 }
+                               ,{field: 'cityDescription', title: '城市描述', width: 135, height:50}
+                           ]]
+                       });
+                       });
+
+
+
+
+
+
+
+                     /*  $.post("/cityHandle",{"city":cityValue},function (data) {
+                           /!**
+                            * <!-- private String cityName ;  //城市名字 索引 1
+                            private String queryTime;  //查询时间       4
+                            private String  temperature; //温度      5
+                            private String condition ; //温度状况     6
+                            private String fengXiang ; //风况        7
+                            private String shikuang ; //实况        10
+                            private String tomorrowTemperature;  //明日温度 12
+                            private String tomorrowCondition ;   //明日状况 13
+                            private String tomorrowFengXiang ;  //明日风向  14
+                            private String afterTomorrowTemperature;  //后天温度 17
+                            private String afterTomorrowCondition ;   //后天状况 18
+                            private String afterAomorrowFengXiang ;  //后天风向  19
+                            private String cityDescription ;   //城市描述  22-->
+                            *!/
+                            //将数据封装到对象
+
+                           var obj = new Object();
+                           obj.cityName = data.cityName;
+                           obj.queryName = data.queryTime;
+                           obj.temperature = data.temperature;
+                           obj.condition = data.condition;
+                           obj.fengXiang = data.fengXiang;
+                           obj.shikuang = data.shikuang;
+                           obj.tomorrowTemperature =data.tomorrowTemperature;
+                           obj.tomorrowCondition = data.tomorrowCondition;
+                           obj.tomorrowFengXiang =data.tomorrowFengXiang;
+                           obj.afterTomorrowTemperature =data.afterTomorrowTemperature;
+                           obj.afterTomorrowCondition = data.afterTomorrowCondition;
+                           obj.afterAomorrowFengXiang = data.afterAomorrowFengXiang;
+                           obj.cityDescription = data.cityDescription;
+                           console.log(obj);
+
+
+                       },"json"); */
+
+                   })
+                });
+                });
+
+            </script>
+
+
+
+</head>
+<body class="layui-bg-black">
+
+
+<p></p><br><br>
+
+<!--<img src="../imgs/11.jpg">-->
+<div class="layui-row layui-col-space5">
+    <div class="layui-col-md5">
+        <div class="layui-row grid-demo">
+            <div class="layui-col-md3" style="text-align: center">
+                <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #2F4056;"></i>
+            </div>
+            <div class="layui-col-md9" style="text-align: center">
+                <h1> <center>欢迎来到查询服务</center></h1>
+            </div>
+
+            <div class="layui-col-md12 two"  style="text-align: center"   >
+                <button id="weather" type="button"  class="layui-btn">查询天气服务</button>
+                <button id="airport" type="button" class="layui-btn layui-btn-danger">查询航班服务</button>
+                <button id="phone" type="button" 	class="layui-btn layui-btn-warm">查询电话号码归属地</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<form method="post" action="/cityHandle" >-->
+<div class="layui-form-item nono" id="city"  >
+    <label class="layui-form-label">查询城市</label>
+    <div class="layui-input-inline">
+        <input id="cityValue" type="text" name="city" required lay-verify="required" placeholder="请输入城市" autocomplete="off" class="layui-input">
+    </div>
+  <!--  <div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+    <input  type="button" value="提交" 	id="sub" class="layui-btn">
+</div>
+<!--</form>-->
+<!-- private String cityName ;  //城市名字 索引 1
+                            private String queryTime;  //查询时间       4
+                            private String  temperature; //温度      5
+                            private String condition ; //温度状况     6
+                            private String fengXiang ; //风况        7
+                            private String shikuang ; //实况        10
+                            private String tomorrowTemperature;  //明日温度 12
+                            private String tomorrowCondition ;   //明日状况 13
+                            private String tomorrowFengXiang ;  //明日风向  14
+                            private String afterTomorrowTemperature;  //后天温度 17
+                            private String afterTomorrowCondition ;   //后天状况 18
+                            private String afterAomorrowFengXiang ;  //后天风向  19
+                            private String cityDescription ;   //城市描述  22-->
+
+<!--<blockquote class="layui-elem-quote" >城市简介</blockquote>
+<div id="description"><blockquote class="layui-elem-quote layui-quote-nm"></blockquote></div>-->
+
+
+<div id="cityData" class="nono" ></div>
+
+
+
+
+
+</body>
+</html>

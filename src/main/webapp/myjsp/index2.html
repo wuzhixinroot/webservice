@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="../layer/layer.js"></script>
+    <script src="../layui/layui.js"></script>
+
+    <style type="text/css">
+        .two{
+            margin: 20px;
+        }
+
+        .nono{
+            display:none;
+        }
+        .nono1{
+            display:none;
+        }
+    </style>
+
+            <script type="text/javascript">
+
+                //入口函数
+                $(function () {
+
+                    var $city = $("#city"); //div 城市 输入框
+                    var $air = $("#air");   //div  航班 输入框
+                    var $subAir = $("#subAir");
+                    var $airInfo = $("#airInfo");
+
+
+                    //航班信息显示
+                    $("#airport").click(function () {
+                        $city.addClass("nono"); //将城市输入框 设为隐藏
+                        $("#cityData").addClass("nono");
+                        if($air.hasClass("nono")) {  //如果该标签中有
+                            $air.removeClass("nono");
+                        };
+
+                        //点击 航班的时候 隐藏citydata
+                        layui.use('table', function(){
+                            var table = layui.table;
+
+                            //第一个实例
+                            table.render({
+                                elem: '#cityData'
+                                ,hide:true
+
+                            });
+
+                        });
+                    });
+
+
+
+                    //给航班信息添加点击事件
+                    $subAir.click(function () {
+                        var startCity = $("#startCity").val();
+                        var lastCity = $("#lastCity").val();
+                        var startTime = $("#startTime").val();
+
+                     /*   $.post("/airPortHandle",{"startCity":startCity,"lastCity":lastCity,"startTime":startTime},
+                            function (data) {
+
+                                }
+                        ,"json");*/
+
+                        //  Item(Company)航空公司、
+                        //  Item(AirlineCode)航班号、
+                        //  Item(StartDrome)出发机场、
+                        //  Item(ArriveDrome)到达机场、
+                        //  Item(StartTime)出发时间、
+                        //  Item(ArriveTime)到达时间、
+                        //  Item(Mode)机型、
+                        //  Item(AirlineStop)经停
+                        //  、Item(Week)飞行周期（星期）
+                       /* private String company;
+                        private String airlineCode;
+                        private String startDrome;
+                        private String arriveDrome;
+                        private String startTime;
+                        private String arriveTime;
+                        private String mode;
+                        private String airlineStop;
+                        private String week;*/
+                        $airInfo.removeClass("nono");
+
+
+                        layui.use('table', function(){
+                            var table = layui.table;
+
+                            //第一个实例
+                            table.render({
+                                elem: '#airInfo'
+                                ,height: 312
+                                ,url: '/webservice/airPortHandle?'+"startCity="+startCity+"&"+
+                                "lastCity="+lastCity+"&"+"startTime="+startTime//数据接口
+                                ,page: true //开启分页
+                                ,limit:10
+                                ,page:1
+                                ,cols: [[ //表头
+                                    {field: 'company', title: '航空公司', width:150, sort: true, fixed: 'left'}
+                                    ,{field: 'airlineCode', title: '航班号', width:150}
+                                    ,{field: 'startDrome', title: '出发机场', width:150, sort: true}
+                                    ,{field: 'arriveDrome', title: '到达机场', width:150}
+                                    ,{field: 'startTime', title: '出发时间', width: 177,style:'background'}
+                                    ,{field: 'arriveTime', title: '到达时间', width: 150, sort: true}
+                                    ,{field: 'mode', title: '机型', width: 150, sort: true}
+                                    ,{field: 'airlineStop', title: '经停', width: 150}
+                                    ,{field: 'week', title: '飞行周期（星期）', width: 135, sort: true}
+                                ]]
+                            });
+
+                        });
+
+                        layui.use('laypage', function(){
+                            var laypage = layui.laypage;
+
+                            //执行一个laypage实例
+                            laypage.render({
+                                elem: 'airInfo' //注意，这里的 test1 是 ID，不用加 # 号
+                                ,limit:10
+                                ,count:count //数据总数，从服务端得到
+                            });
+                        });
+
+                    });
+
+
+
+                    //给天气服务添加点击事件
+                   $("#weather").click(function () {
+                       //如果有隐藏class 则隐藏
+                     /*  alert("sssssssss");
+                      if($("#weather").hasClass("nono")){
+                          $("#weather").hide().removeClass("nono");
+                      }*/
+
+                       //如果隐藏则显示
+                       if($city.hasClass("nono")){
+                           $city.removeClass("nono");  //取消隐藏显示
+
+
+                       }
+                     //一点击就隐藏 两个div
+                        $airInfo.addClass("nono"); //将数据表格隐藏
+                         $air.addClass("nono");   //将航班div隐藏
+                       layui.use('table', function(){
+                           var table = layui.table;
+
+                           //第一个实例
+                           table.render({
+                               elem: '#airInfo'
+                               ,hide:true
+
+                           });
+
+                       });
+
+
+
+                   });
+
+                   //ajax 异步提交
+                   $("#sub").click(function () {
+                       var cityValue = $("#cityValue").val();
+                     //  alert(cityValue);
+
+                       var $cityData= $("#cityData ");
+                       if($cityData.hasClass("nono")) {
+                           $cityData.removeClass("nono");
+
+                       }
+                       layui.use('table', function(){
+                           var table = layui.table;
+                       layui.use('table', function(){
+                           var table = layui.table;
+                       table.render({
+                               elem: '#cityData'
+                               ,height: 310
+                               ,url: "/webservice/cityHandle?city="+cityValue //数据接口
+                               // ,page: true //开启分页
+                               ,limit:1
+                               ,cols: [[ //表头
+                                   {field: 'cityName', title: '城市名称', width:80,  fixed: 'left'}
+                                   ,{field: 'queryTime', title: '查询时间', width:200}
+                                   ,{field: 'temperature', title: '当前温度', width:200,style:'background-color: #5FB878'}
+                                   ,{field: 'condition', title: '温度状况', width:200}
+                                   ,{field: 'fengXiang', title: '风况', width: 250}
+                                   ,{field: 'shikuang', title: '实况', width: 135}
+                                   ,{field: 'tomorrowTemperature', title: '明日天气', width: 135,style:'background-color: #FFB800'}
+                                   ,{field: 'tomorrowCondition', title: '明日状况', width: 135}
+                                   ,{field: 'tomorrowFengXiang', title: '明日风向', width: 250}
+                                   ,{field: 'afterTomorrowTemperature', title: '后天天气', width: 135,style:'background-color: #01AAED'}
+                                   ,{field: 'afterTomorrowCondition', title: '后天状况', width: 250}
+                                   ,{field: 'afterAomorrowFengXiang', title: '后天风向', width: 250,height:50 }
+                                   ,{field: 'cityDescription', title: '城市描述', width: 135, height:50}
+                               ]]
+                           });
+                       });
+
+                   });
+                });
+
+                });
+
+            </script>
+
+
+
+</head>
+<body class="layui-bg-black">
+
+
+<p></p><br><br>
+
+<!--<img src="../imgs/11.jpg">-->
+<div class="layui-row layui-col-space5">
+    <div class="layui-col-md5">
+        <div class="layui-row grid-demo">
+            <div class="layui-col-md3" style="text-align: center">
+                <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #2F4056;"></i>
+            </div>
+            <div class="layui-col-md9" style="text-align: center;margin: 10px auto">
+                <h1> <center>欢迎来到查询服务</center></h1>
+            </div>
+
+            <div class="layui-col-md12 two"  style="text-align: center;margin:20px auto"  >
+                <button id="weather" type="button"  class="layui-btn" >查询天气服务</button>
+                <button id="airport" type="button" class="layui-btn layui-btn-danger">查询航班服务</button>
+                <button id="phone" type="button" 	class="layui-btn layui-btn-warm">查询电话号码归属地</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<form method="post" action="/cityHandle" >-->
+<div class="layui-form-item nono" id="city"  >
+    <label class="layui-form-label">查询城市</label>
+    <div class="layui-input-inline">
+        <input id="cityValue" type="text" name="city" required lay-verify="required" placeholder="请输入城市" autocomplete="off" class="layui-input">
+    </div>
+
+    <input  type="button" value="提交" 	id="sub" class="layui-btn">
+</div>
+
+<div style="margin: 20px auto"  class="nono" id="air">
+    <div class="layui-form-item"  style="margin: 20px auto"  >
+        <label class="layui-form-label">出发城市</label>
+        <div class="layui-input-inline">
+            <input id="startCity" type="text" name="startCity" required lay-verify="required" placeholder="出发城市" autocomplete="off" class="layui-input">
+        </div>
+        <!--  <div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+
+    </div>
+
+    <div class="layui-form-item"  style="margin: 20px auto">
+        <label class="layui-form-label">到达城市</label>
+        <div class="layui-input-inline">
+            <input id="lastCity" type="text" name="lastCity" required lay-verify="required" placeholder="到达城市" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item"  style="margin: 20px auto">
+        <label class="layui-form-label">出发日期</label>
+        <div class="layui-input-inline">
+            <input id="startTime" type="text" name="startTime" required lay-verify="required" placeholder="出发日期" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">时间格式 yyyy-MM-dd</div>
+    </div>
+
+
+    <input  type="button" value="提交" 	id="subAir" class="layui-btn" style="margin-left:150px;">
+</div>
+
+
+    <div id="cityData" class="nono" ></div>
+
+<div id="airInfo"  class="nono"></div>
+
+
+
+
+</body>
+</html>
